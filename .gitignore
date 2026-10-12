@@ -1,0 +1,26 @@
+# Системные файлы операционных систем
+.DS_Store
+Thumbs.db
+
+# Конфигурации вашей среды разработки (IDE)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+
+# Локальные переменные окружения и секреты (пароли, ключи API)
+.env
+.env.local
+secrets.json
+
+# Зависимости и пакеты
+node_modules/
+/venv/
+.pnpm-store/
+
+# Результаты сборки, логи и кэш
+/dist/
+/build/
+*.log
+.eslintcache
+.idea
