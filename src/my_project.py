@@ -1,7 +1,10 @@
+"""
+Модуль классификации треугольников (ЛР1).
+Возвращает тип треугольника и координаты вершин, вписанные в поле 100x100.
+"""
 import logging
 import math
 
-# Маленькое число для сравнения float-ов (погрешность)
 EPS = 1e-9
 
 
@@ -16,7 +19,7 @@ def _is_float(value: str) -> bool:
 
 def _classify_triangle(a: float, b: float, c: float) -> str:
     """Определяет вид треугольника по трём сторонам."""
-    # Неравенство треугольника
+    # Неравенство треугольника (включая вырожденный случай a+b==c)
     if a + b <= c or a + c <= b or b + c <= a:
         return "не треугольник"
 
@@ -35,7 +38,7 @@ def _classify_triangle(a: float, b: float, c: float) -> str:
 def _calc_vertices(a: float, b: float, c: float) -> list:
     """
     Вычисляет координаты 3 вершин треугольника
-    и вписывает их в поле 100x100 px.
+    и вписывает их в поле 100x100 px с отступом 5 px.
     """
     # A в начале координат, B на оси X
     ax, ay = 0.0, 0.0
@@ -46,7 +49,7 @@ def _calc_vertices(a: float, b: float, c: float) -> list:
     cy_sq = b * b - cx * cx
     cy = math.sqrt(cy_sq) if cy_sq > 0 else 0.0
 
-    # Текущие границы (bounding box) треугольника
+    # Bounding box треугольника
     xs = [ax, bx, cx]
     ys = [ay, by, cy]
     min_x, max_x = min(xs), max(xs)
@@ -85,24 +88,23 @@ def process_triangle(line_a: str, line_b: str, line_c: str):
     Главная функция обработки.
     Возвращает кортеж (тип_треугольника, список_координат).
     """
-    # --- Проверка на нечисловые данные ---
+    # 1) Проверка на числовой формат
     if not (_is_float(line_a) and _is_float(line_b) and _is_float(line_c)):
         logging.warning("Получены нечисловые входные данные")
         return "", [(-2, -2), (-2, -2), (-2, -2)]
 
     a, b, c = float(line_a), float(line_b), float(line_c)
 
-    # --- Проверка на положительность ---
+    # 2) Проверка на положительность
     if a <= 0 or b <= 0 or c <= 0:
         logging.warning(f"Некорректные значения сторон: a={a}, b={b}, c={c}")
         return "не треугольник", [(-1, -1), (-1, -1), (-1, -1)]
 
-    # --- Классификация ---
+    # 3) Классификация
     triangle_type = _classify_triangle(a, b, c)
 
-    # --- Координаты ---
+    # 4) Координаты
     if triangle_type == "не треугольник":
-        # Ошибочные числовые данные → сброс координат в (-1, -1)
         vertices = [(-1, -1), (-1, -1), (-1, -1)]
     else:
         vertices = _calc_vertices(a, b, c)

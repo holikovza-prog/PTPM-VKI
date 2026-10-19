@@ -1,6 +1,5 @@
 import datetime
 
-
 def calculate_delivery_cost(weight: float, distance: int, package_type: str, is_express: bool = False) -> tuple:
     """
     Расчет стоимости и параметров доставки посылки.
@@ -45,4 +44,4 @@ def calculate_delivery_cost(weight: float, distance: int, package_type: str, is_
 
     delivery_date = current_date + datetime.timedelta(days=days_needed)
 
-    return int(total_cost), delivery_date.strftime("%Y-%m-%d")
+    return int(total_cost), delivery_date.strftime("%Y-%m-%d") 
