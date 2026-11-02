@@ -12,6 +12,7 @@ from src.my_project import (
 )
 
 
+
 class TestIsFloatHelper(unittest.TestCase):
     """Тесты вспомогательной функции _is_float."""
 
@@ -29,6 +30,8 @@ class TestIsFloatHelper(unittest.TestCase):
 
     def test_is_float_rejects_empty_string(self):
         self.assertFalse(_is_float(""))
+
+
 
 
 class TestInputValidation(unittest.TestCase):
@@ -153,6 +156,9 @@ class TestClassifyTriangleDirect(unittest.TestCase):
 
     def test_all_zero_sides_not_triangle(self):
         self.assertEqual(_classify_triangle(0.0, 0.0, 0.0), "не треугольник")
+
+    def test_all_triangle(self):
+        self.assertEqual(_classify_triangle( 0.2,  0.3,  0.4),  "разносторонний")
 
 
 if __name__ == "__main__":

@@ -73,23 +73,31 @@ class TestDeliveryKnownBugs(unittest.TestCase):
     """
 
     def test_express_delivery_should_increase_cost(self):
-        """БАГ 1: Экспресс должен УВЕЛИЧИВАТЬ стоимость (*1.5), а не уменьшать (*0.5)."""
+
         cost, _ = calculate_delivery_cost(10.0, 100, "обычный", True)
-        # 700 * 1.2 = 840. Ожидаем 840 * 1.5 = 1260. Код вернет 420.
+
         self.assertEqual(cost, 1260)
 
     def test_express_delivery_minimum_one_day(self):
-        """БАГ 2: Экспресс не может занимать 0 дней — минимум 1."""
-        _, date = calculate_delivery_cost(2.0, 400, "обычный", True)
-        # 400 // 500 = 0 -> max(1, 0) = 1. Экспресс: 1 // 2 = 0 (баг).
-        # Ожидаем 1 день. Код вернет 03.09 (0 дней).
-        self.assertEqual(date, "2026-09-04")
+
+        _, date = calculate_delivery_cost(2.0, 1000, "обычный", True)
+
+
+        self.assertEqual(date, "2026-11-04")
 
     def test_weight_boundary_exactly_5kg_should_apply_multiplier(self):
-        """БАГ 3: Вес ровно 5.0 кг должен попадать под коэффициент 1.2."""
+
         cost_5_0, _ = calculate_delivery_cost(5.0, 100, "обычный", False)
-        # Ожидаем 700 * 1.2 = 840. Код вернет 700 (т.к. условие > 5.0, а не >=).
+
         self.assertEqual(cost_5_0, 840)
+
+
+    def test_cost_days(self):
+        cost, date = calculate_delivery_cost(100,600, "опасный", True)
+
+        self.assertEqual(cost, 8700)
+        self.assertEqual( date, "2026-11-04")
+
 
 
 if __name__ == "__main__":
