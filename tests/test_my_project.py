@@ -160,6 +160,10 @@ class TestClassifyTriangleDirect(unittest.TestCase):
     def test_all_triangle(self):
         self.assertEqual(_classify_triangle( 0.2,  0.3,  0.4),  "разносторонний")
 
+    def test_al_triangle(self):
+        self.assertEqual(_classify_triangle("a", "b", "c"), "не треугольник")
+
+
 
 if __name__ == "__main__":
     unittest.main()
